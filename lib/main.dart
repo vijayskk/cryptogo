@@ -1,4 +1,5 @@
-import 'package:cryptogo/home.dart';
+import 'package:cryptogo/screens/details.dart';
+import 'package:cryptogo/screens/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeScreen(),
+      home: DetailsScreen(),
     );
   }
 }
