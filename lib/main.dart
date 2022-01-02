@@ -1,5 +1,5 @@
-import 'package:cryptogo/screens/details.dart';
 import 'package:cryptogo/screens/home.dart';
+import 'package:cryptogo/screens/splash.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -7,13 +7,12 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({ Key? key }) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: DetailsScreen(),
+      home: SplashScreen(),
     );
   }
 }
-

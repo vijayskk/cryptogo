@@ -4,9 +4,14 @@ import 'package:cryptogo/components/round_btn.dart';
 import 'package:cryptogo/constants/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final List listdata;
+  final Map globaldata;
+
+  const HomeScreen({Key? key, required this.listdata, required this.globaldata})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   RoundButton(icon: HeroIcons.moon),
                   Text(
-                    "Live coins",
+                    "CryptoGo",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -41,30 +46,30 @@ class HomeScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2),
                       child: Text(
-                        "Market cap",
+                        "Markets",
                         style: TextStyle(color: Colors.grey, fontSize: 15),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2),
                       child: Text(
-                        "16.8B",
+                        globaldata["data"]["markets"].toString(),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      child: Text(
-                        "7.98%",
-                        style: TextStyle(
-                            color: greentxtcolor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(vertical: 2),
+                    //   child: Text(
+                    //     "7.98%",
+                    //     style: TextStyle(
+                    //         color: greentxtcolor,
+                    //         fontSize: 18,
+                    //         fontWeight: FontWeight.bold),
+                    //   ),
+                    // ),
                   ],
                 ),
                 Column(
@@ -80,7 +85,8 @@ class HomeScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2),
                       child: Text(
-                        "16.8B",
+                        formatNumber(
+                            globaldata["data"]["total_market_cap"]["btc"]),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
@@ -90,9 +96,16 @@ class HomeScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2),
                       child: Text(
-                        "7.98%",
+                        globaldata["data"]["market_cap_percentage"]["btc"]
+                                .toString()
+                                .substring(0, 4) +
+                            '%',
                         style: TextStyle(
-                            color: greentxtcolor,
+                            color: (globaldata["data"]["market_cap_percentage"]
+                                        ["btc"] >
+                                    0)
+                                ? greentxtcolor
+                                : redtxtcolor,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),
@@ -105,30 +118,32 @@ class HomeScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2),
                       child: Text(
-                        "Market cap",
+                        "Active Coins",
                         style: TextStyle(color: Colors.grey, fontSize: 15),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2),
                       child: Text(
-                        "16.8B",
+                        formatNumber(globaldata["data"]
+                                ["active_cryptocurrencies"] +
+                            0.0),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      child: Text(
-                        "7.98%",
-                        style: TextStyle(
-                            color: greentxtcolor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(vertical: 2),
+                    //   child: Text(
+                    //     "7.98%",
+                    //     style: TextStyle(
+                    //         color: greentxtcolor,
+                    //         fontSize: 18,
+                    //         fontWeight: FontWeight.bold),
+                    //   ),
+                    // ),
                   ],
                 ),
               ],
@@ -171,53 +186,39 @@ class HomeScreen extends StatelessWidget {
               child: Container(
                 child: ListView.builder(
                   itemBuilder: (ctx, index) {
+                    listdata.shuffle();
                     return ListTile(
-                      leading: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: buttonbgcolor,
-                        child: Image.network("https://cryptologos.cc/logos/bitcoin-btc-logo.png",height: 20,width: 20,),
-                      ),
-                      title:                 Text(
-                        "Bitcoin",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                        "Live coins",
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      trailing: Column(
-                        children: [
-                                              Padding(
-                      padding: const EdgeInsets.only(bottom: 2),
-                      child: Text(
-                        "16.8B",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      child: Text(
-                        "7.98%",
-                        style: TextStyle(
-                            color: greentxtcolor,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                        ],
-                      ),
-                    );
+                        leading: CircleAvatar(
+                          radius: 20,
+                          backgroundColor: buttonbgcolor,
+                          child: Image.network(
+                            "https://cryptologos.cc/logos/bitcoin-btc-logo.png",
+                            height: 20,
+                            width: 20,
+                          ),
+                        ),
+                        title: Text(
+                          listdata[index]["name"].length < 15
+                              ? listdata[index]["name"]
+                              : listdata[index]["name"].substring(0, 15),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          listdata[index]["symbol"],
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        trailing: HeroIcon(
+                          HeroIcons.chevronRight,
+                          color: Colors.white,
+                        ));
                   },
-                  itemCount: 20,
+                  itemCount: listdata.length,
                 ),
               ),
             )
@@ -226,4 +227,9 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+String formatNumber(double number) {
+  return NumberFormat.compactCurrency(decimalDigits: 3, symbol: '')
+      .format(number);
 }
