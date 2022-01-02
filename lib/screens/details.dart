@@ -47,11 +47,11 @@ class DetailsScreen extends StatelessWidget {
                       showTitles: true,
                       getTextStyles: (context, value) {
                         switch (value.toInt()) {
-                          case 2:
+                          case 1:
                             return TextStyle(color: Colors.greenAccent);
                           case 0:
                             return TextStyle(color: Colors.white);
-                          case -2:
+                          case -1:
                             return TextStyle(color: Colors.redAccent);
                         }
                         return TextStyle(color: Colors.white);
@@ -60,11 +60,11 @@ class DetailsScreen extends StatelessWidget {
                       margin: 8,
                       getTitles: (value) {
                         switch (value.toInt()) {
-                          case 2:
+                          case 1:
                             return 'High';
                           case 0:
                             return 'Base';
-                          case -2:
+                          case -1:
                             return 'Low';
                         }
                         return '';
@@ -80,16 +80,16 @@ class DetailsScreen extends StatelessWidget {
                       // isCurved: true,
                       spots: [
                         FlSpot(1, 0),
-                        FlSpot(2, 2),
-                        FlSpot(3, 2),
-                        FlSpot(4, -2),
+                        FlSpot(2, 1),
+                        FlSpot(3, 1),
+                        FlSpot(4, -1),
                         FlSpot(5, 0),
                         FlSpot(6, 0),
-                        FlSpot(7, -2),
+                        FlSpot(7, -1),
                         FlSpot(8, 0),
-                        FlSpot(9, 2),
-                        FlSpot(10, 2),
-                        FlSpot(11, -2),
+                        FlSpot(9, 1),
+                        FlSpot(10, 1),
+                        FlSpot(11, -1),
                         FlSpot(12, 0),
                       ],
                     )
